@@ -1,0 +1,69 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  overflow: hidden;
+}
+
+::-webkit-scrollbar,
+::-webkit-scrollbar-corner {
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #c3c3c3;
+  border-radius: 5px;
+  -webkit-transition: all ease 0.5s;
+  transition: all ease 0.5s;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #a8a7a7;
+}
+
+.project--text--primary {
+  color: #003366 !important;
+}
+
+.project--bg--primary {
+  background-color: #003366 !important;
+}
+
+.project--text--bg--primary {
+  color: white !important;
+  background-color: #003366 !important;
+}
+
+.project--border--primary {
+  border: 1px solid #003366 !important;
+}
+
+#alertContainer {
+  z-index: 999999;
+}
+
+.--login .up--square {
+  width: 100vw;
+  height: 50vh;
+  background-color: #003366 !important;
+}
+.--login .main--container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+.--login .main--container .form--container {
+  width: 80%;
+}
+.--login .main--container .form--container .admin--text {
+  font-size: 21px;
+  font-style: italic;
+  font-weight: 500;
+}/*# sourceMappingURL=App.css.map */

@@ -1,0 +1,73 @@
+$projectPrimaryColor: #003366;
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  overflow: hidden;
+}
+
+::-webkit-scrollbar,
+::-webkit-scrollbar-corner {
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #c3c3c3;
+  border-radius: 5px;
+  transition: all ease 0.5s;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #a8a7a7;
+}
+
+.project--text--primary {
+  color: $projectPrimaryColor !important;
+}
+.project--bg--primary {
+  background-color: $projectPrimaryColor !important;
+}
+
+.project--text--bg--primary {
+  color: white !important;
+  background-color: $projectPrimaryColor !important;
+}
+.project--border--primary {
+  border: 1px solid $projectPrimaryColor !important;
+}
+
+#alertContainer {
+  z-index: 999999;
+}
+
+.--login {
+  .up--square {
+    width: 100vw;
+    height: 50vh;
+    background-color: $projectPrimaryColor !important;
+  }
+
+  .main--container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+
+    .form--container {
+      width: 80%;
+
+      .admin--text {
+        font-size: 21px;
+        font-style: italic;
+        font-weight: 500;
+      }
+    }
+  }
+}
