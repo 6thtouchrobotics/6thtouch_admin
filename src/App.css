@@ -7,6 +7,14 @@ html {
   overflow: hidden;
 }
 
+@media screen and (max-width: 768px) {
+  /* Overwrite any responsive design here */
+  body,
+  html {
+    overflow-x: scroll;
+    width: 1200px;
+  }
+}
 ::-webkit-scrollbar,
 ::-webkit-scrollbar-corner {
   width: 10px;
