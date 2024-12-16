@@ -23,8 +23,10 @@ const CourseInfo = () => {
       "patch",
       (res) => {
         useAlert(res.data?.message);
-        setIsChanging(false);
-        useServer(`/courses/${courseId}`, "get", (res) => setCourse(res.data));
+        useServer(`/courses/${courseId}`, "get", (res) => {
+          setCourse(res.data);
+          setIsChanging(false);
+        });
       },
       {}
     );
@@ -38,7 +40,10 @@ const CourseInfo = () => {
       (res) => {
         useAlert(res.data?.message);
         setIsChanging(false);
-        useServer(`/courses/${courseId}`, "get", (res) => setCourse(res.data));
+        useServer(`/courses/${courseId}`, "get", (res) => {
+          setCourse(res.data);
+          setIsChanging(false);
+        });
       },
       {}
     );
