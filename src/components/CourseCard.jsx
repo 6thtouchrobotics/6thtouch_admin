@@ -7,6 +7,7 @@ const CourseCard = ({
   courseView = false,
   handlePublish,
   handleUnpublish,
+  isChanging = false,
 }) => {
   return (
     <>
@@ -60,8 +61,23 @@ const CourseCard = ({
                     onClick={
                       course.isPublished ? handleUnpublish : handlePublish
                     }
+                    disabled={isChanging}
                   >
-                    {course.isPublished ? "Unpublish" : "Publish"}
+                    {isChanging && (
+                      <div
+                        className="spinner-border text-primary me-2"
+                        role="status"
+                      >
+                        <span className="visually-hidden">Loading...</span>
+                      </div>
+                    )}
+                    {course.isPublished
+                      ? isChanging
+                        ? "Unpublishing"
+                        : "Unpublish"
+                      : isChanging
+                      ? "Publishing"
+                      : "Publish"}
                   </button>
                 </div>
               </>

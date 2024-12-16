@@ -11,27 +11,33 @@ import Skeleton from "react-loading-skeleton";
 const CourseInfo = () => {
   const { courseId } = useParams();
   const [course, setCourse] = useState(null);
+  const [isChanging, setIsChanging] = useState(false);
 
   useEffect(() => {
     useServer(`/courses/${courseId}`, "get", (res) => setCourse(res.data));
   }, []);
   const handlePublish = () => {
+    setIsChanging(true);
     useServer(
       `/admin/courses/${courseId}/publish`,
       "patch",
       (res) => {
         useAlert(res.data?.message);
+        setIsChanging(false);
         useServer(`/courses/${courseId}`, "get", (res) => setCourse(res.data));
       },
       {}
     );
   };
   const handleUnpublish = () => {
+    setIsChanging(true);
+
     useServer(
       `/admin/courses/${courseId}/unpublish`,
       "patch",
       (res) => {
         useAlert(res.data?.message);
+        setIsChanging(false);
         useServer(`/courses/${courseId}`, "get", (res) => setCourse(res.data));
       },
       {}
@@ -52,6 +58,7 @@ const CourseInfo = () => {
             handlePublish={handlePublish}
             handleUnpublish={handleUnpublish}
             courseView
+            isChanging={isChanging}
           />
         </div>
       </div>

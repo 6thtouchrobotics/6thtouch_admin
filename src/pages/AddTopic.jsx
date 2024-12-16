@@ -24,27 +24,33 @@ const AddTopic = () => {
   const topicFileRef = useRef(null);
   const [step, setStep] = useState(1);
   const [progress, setProgress] = useState(0);
+  const [isChanging, setIsChanging] = useState(false);
 
   useEffect(() => {
     useServer(`/courses/${courseId}`, "get", (res) => setCourse(res.data));
   }, []);
   const handlePublish = () => {
+    setIsChanging(true);
     useServer(
       `/admin/courses/${courseId}/publish`,
       "patch",
       (res) => {
         useAlert(res.data?.message);
+        setIsChanging(false);
         useServer(`/courses/${courseId}`, "get", (res) => setCourse(res.data));
       },
       {}
     );
   };
   const handleUnpublish = () => {
+    setIsChanging(true);
+
     useServer(
       `/admin/courses/${courseId}/unpublish`,
       "patch",
       (res) => {
         useAlert(res.data?.message);
+        setIsChanging(false);
         useServer(`/courses/${courseId}`, "get", (res) => setCourse(res.data));
       },
       {}
