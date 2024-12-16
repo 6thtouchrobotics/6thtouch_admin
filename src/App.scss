@@ -10,8 +10,7 @@ html {
 }
 @media screen and (max-width: 768px) {
   /* Overwrite any responsive design here */
-  body,
-  html {
+  body {
     overflow-x: scroll;
     width: 1200px;
   }
