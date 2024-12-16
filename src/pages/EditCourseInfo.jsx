@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import useAlert from "../hooks/useAlert";
 import usePrompt from "../hooks/usePrompt";
+import Skeleton from "react-loading-skeleton";
 
 const EditCourseInfo = () => {
   const nav = useNavigate();
@@ -223,7 +224,62 @@ const EditCourseInfo = () => {
       </div>
     </>
   ) : (
-    <LoadingAnimation />
+    <div className="container p-4">
+      <Skeleton width={"100%"} height={50} />
+      <div className="container-fluid p-0 mt-3 ">
+        <div className="container-fluid">
+          <Skeleton width={124} height={18} />
+        </div>
+      </div>
+      <div className="container-fluid">
+        <div className="container py-4 px-5">
+          <div className="row" onSubmit={handleSubmit}>
+            <div className="col-12 mb-3">
+              <Skeleton
+                // className="container-fluid rounded-3 mt-3"
+                width={"100%"}
+                height={58}
+              />
+            </div>
+            <div className="col-12 mb-3">
+              <Skeleton
+                // className="container-fluid rounded-3 mt-3"
+                width={"100%"}
+                height={58}
+              />
+            </div>
+            <div className="col-6 mb-3">
+              <Skeleton
+                // className="container-fluid rounded-3 mt-3"
+                width={"100%"}
+                height={58}
+              />
+            </div>
+            <div className="col-6 mb-3 pt-2">
+              <Skeleton
+                // className="container-fluid rounded-3 mt-3"
+                width={"100%"}
+                height={58}
+              />
+            </div>
+            <div className="col-6 mb-3">
+              <Skeleton
+                // className="container-fluid rounded-3 mt-3"
+                width={"100%"}
+                height={58}
+              />
+            </div>
+            <div className="col-6 mb-3">
+              <Skeleton
+                // className="container-fluid rounded-3 mt-3"
+                width={"100%"}
+                height={58}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

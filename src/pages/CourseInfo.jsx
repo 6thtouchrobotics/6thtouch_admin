@@ -6,6 +6,7 @@ import LoadingAnimation from "../components/LoadingAnimation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import useAlert from "../hooks/useAlert";
+import Skeleton from "react-loading-skeleton";
 
 const CourseInfo = () => {
   const { courseId } = useParams();
@@ -38,9 +39,9 @@ const CourseInfo = () => {
   };
   return course ? (
     <div className="row p-4">
-      <div className="col-4 p-0">
+      <div className="col-4 p-0 ">
         <div
-          className="p-0 bg-white rounded-3"
+          className="p-0 bg-white rounded-3 position-sticky top-0"
           style={{
             border:
               "5px solid rgba(var(--bs-secondary-bg-rgb),var(--bs-bg-opacity))!important",
@@ -87,7 +88,45 @@ const CourseInfo = () => {
       </div>
     </div>
   ) : (
-    <LoadingAnimation />
+    <div className="row p-4">
+      <div className="col-4 p-0">
+        <div
+          className="p-0 rounded-3"
+          style={{
+            border:
+              "5px solid rgba(var(--bs-secondary-bg-rgb),var(--bs-bg-opacity))!important",
+          }}
+        >
+          <Skeleton
+            className="rounded-3 d-flex align-items-center justify-content-center py-3 px-5 me-3"
+            width={380}
+            height={467}
+          />
+        </div>
+      </div>
+
+      <div className="col-8">
+        <div className="container-fluid text-end my-3">
+          <Skeleton width={172} height={45} />
+        </div>
+        <div className="container rounded-3 p-4">
+          <Skeleton width={400} height={45} />
+
+          <Skeleton width={"100%"} height={209} />
+
+          <Skeleton width={"100%"} height={81} />
+          <div className="container p-0">
+            <Skeleton width={400} height={30} />
+
+            <Skeleton width={"100%"} height={2} />
+
+            <Skeleton width={"100%"} height={15} />
+            <Skeleton width={"100%"} height={15} />
+            <Skeleton width={"100%"} height={15} />
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

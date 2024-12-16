@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import useServer from "../hooks/useServer";
 import LoadingAnimation from "../components/LoadingAnimation";
+import Skeleton from "react-loading-skeleton";
+
 const Courses = () => {
   const [courses, setCourses] = useState(null);
   useEffect(() => {
@@ -61,7 +63,47 @@ const Courses = () => {
       </div>
     </>
   ) : (
-    <LoadingAnimation />
+    <>
+      <div className="container p-4">
+        <Skeleton
+          // className="container-fluid rounded-3 mt-3"
+          width={"100%"}
+          height={50}
+        />
+        <div className="container-fluid mt-5">
+          <div className="row">
+            <div
+              className="col-4 p-0 rounded-3"
+              style={{
+                border:
+                  "5px solid rgba(var(--bs-secondary-bg-rgb),var(--bs-bg-opacity))!important",
+              }}
+            >
+              <Skeleton
+                className="rounded-3 d-flex align-items-center justify-content-center py-3 px-5 me-3"
+                width={380}
+                height={467}
+              />
+            </div>
+            <div
+              className="col-4 p-0 rounded-3"
+              style={{
+                border:
+                  "5px solid rgba(var(--bs-secondary-bg-rgb),var(--bs-bg-opacity))!important",
+              }}
+            >
+              <Skeleton
+                className="rounded-3 d-flex align-items-center justify-content-center py-3 px-5 me-3"
+                width={380}
+                height={467}
+              />
+            </div>
+
+            {/* className="bg-info rounded-3 text-white  d-flex align-items-center justify-content-center py-3 px-5 me-3" */}
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 

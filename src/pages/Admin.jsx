@@ -11,6 +11,8 @@ import usePrompt from "../hooks/usePrompt";
 import useAlert from "../hooks/useAlert";
 import { useNavigate } from "react-router-dom";
 import LoadingAnimation from "../components/LoadingAnimation";
+import EditProfileModal from "../components/EditProfileModal";
+import Skeleton from "react-loading-skeleton";
 
 const Admin = () => {
   const [myProfile, setMyProfile] = useState(null);
@@ -81,7 +83,11 @@ const Admin = () => {
             <p>{myProfile.email}</p>
           </div>
           <div className="col-4">
-            <button className="btn project--text--bg--primary me-3">
+            <button
+              className="btn project--text--bg--primary me-3"
+              data-bs-toggle="modal"
+              data-bs-target="#editProfileModal"
+            >
               Edit Profile
             </button>
             <button className="btn btn-danger" onClick={logOut}>
@@ -106,7 +112,10 @@ const Admin = () => {
             .filter((admin) => admin.id !== myProfile.id)
             .map((admin) => {
               return (
-                <div className="row py-3 px-3 align-items-center">
+                <div
+                  className="row py-3 px-3 align-items-center"
+                  key={admin.id}
+                >
                   <div className="col-1">
                     <div className="project--text--primary">
                       <FontAwesomeIcon icon={faUser} style={{ fontSize: 30 }} />
@@ -132,9 +141,61 @@ const Admin = () => {
       </div>
 
       <AddAdminModal setAdmins={setAdmins} />
+      <EditProfileModal myProfile={myProfile} setMyProfile={setMyProfile} />
     </>
   ) : (
-    <LoadingAnimation />
+    <>
+      <div className="container p-4">
+        <div className="row py-3 px-3 align-items-center">
+          <div className="col-1">
+            <Skeleton circle width={91} height={91} />
+          </div>
+          <div className="col-7 ps-4">
+            <Skeleton width={400} height={50} />
+            <Skeleton width={200} height={25} />
+          </div>
+          <div className="col-4">
+            <div className="d-flex">
+              <Skeleton width={100} height={40} className="rounded-3 me-2" />
+              <Skeleton width={100} height={40} className="rounded-3" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="container mt-3">
+        <Skeleton width={400} height={45} />
+        <Skeleton width={"100%"} height={2} />
+
+        <div className="row py-3 px-3 align-items-center">
+          <div className="col-1">
+            <Skeleton circle width={91} height={91} />
+          </div>
+          <div className="col-7 ps-4">
+            <Skeleton width={400} height={50} />
+            <Skeleton width={200} height={25} />
+          </div>
+          <div className="col-4">
+            <div className="d-flex">
+              <Skeleton width={100} height={40} className="rounded-3 me-2" />
+            </div>
+          </div>
+        </div>
+        <div className="row py-3 px-3 align-items-center">
+          <div className="col-1">
+            <Skeleton circle width={91} height={91} />
+          </div>
+          <div className="col-7 ps-4">
+            <Skeleton width={400} height={50} />
+            <Skeleton width={200} height={25} />
+          </div>
+          <div className="col-4">
+            <div className="d-flex">
+              <Skeleton width={100} height={40} className="rounded-3 me-2" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 

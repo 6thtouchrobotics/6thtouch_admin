@@ -8,6 +8,7 @@ import {
 import useServer from "../hooks/useServer";
 import { useState, useEffect } from "react";
 import LoadingAnimation from "../components/LoadingAnimation";
+import Skeleton from "react-loading-skeleton";
 
 const Home = () => {
   const [myProfile, setMyProfile] = useState(null);
@@ -92,7 +93,36 @@ const Home = () => {
       </div>
     </div>
   ) : (
-    <LoadingAnimation />
+    <>
+      <div className="container p-4">
+        <Skeleton
+          // className="container-fluid rounded-3 mt-3"
+          width={"100%"}
+          height={134}
+        />
+      </div>
+      <div className="container mt-5 px-5">
+        <div className="d-flex">
+          <Skeleton
+            className="rounded-3 d-flex align-items-center justify-content-center py-3 px-5 me-3"
+            width={250}
+            height={168}
+          />
+          <Skeleton
+            className="rounded-3 d-flex align-items-center justify-content-center py-3 px-5 me-3"
+            width={250}
+            height={168}
+          />
+          <Skeleton
+            className="rounded-3 d-flex align-items-center justify-content-center py-3 px-5"
+            width={250}
+            height={168}
+          />
+
+          {/* className="bg-info rounded-3 text-white  d-flex align-items-center justify-content-center py-3 px-5 me-3" */}
+        </div>
+      </div>
+    </>
   );
 };
 
