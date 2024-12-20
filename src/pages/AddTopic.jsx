@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import useServer from "../hooks/useServer";
 import CourseCard from "../components/CourseCard";
@@ -13,6 +13,8 @@ import {
 } from "@vercel/blob/client";
 
 const AddTopic = () => {
+  const nav = useNavigate();
+
   const { courseId } = useParams();
   const [course, setCourse] = useState(null);
   const [submitted, setSubmitted] = useState(false);
@@ -80,13 +82,19 @@ const AddTopic = () => {
         alert(res.data.token);
         setStep(2);
         try {
-          let { url } = await put(file.name, file, {
+          let { url } = await upload(file.name, file, {
             access: "public",
-            token: res.data.token,
+            handleUploadUrl: `${
+              import.meta.env.VITE_BACKEND_SERVER_URL
+            }/admin/handleUpload`,
             multipart: true,
             onUploadProgress: ({ percentage }) => setProgress(percentage || 0),
           });
           console.log(url);
+          useServer("/admin/courses/topics/:topicId/uploadUrl", "POST", () => {
+            useAlert("Upload complete");
+            nav(-1);
+          });
         } catch (error) {
           console.error("Error during file upload:", error);
           if (error.response) {
