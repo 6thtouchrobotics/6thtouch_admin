@@ -91,10 +91,17 @@ const AddTopic = () => {
             onUploadProgress: ({ percentage }) => setProgress(percentage || 0),
           });
           console.log(url);
-          useServer("/admin/courses/topics/:topicId/uploadUrl", "POST", () => {
-            useAlert("Upload complete");
-            nav(-1);
-          });
+          useServer(
+            "/admin/courses/topics/:topicId/uploadUrl",
+            "POST",
+            () => {
+              useAlert("Upload complete");
+              nav(-1);
+            },
+            {
+              url,
+            }
+          );
         } catch (error) {
           console.error("Error during file upload:", error);
           if (error.response) {
