@@ -84,7 +84,7 @@ const AddTopic = () => {
             access: "public",
             handleUploadUrl: `${
               import.meta.env.VITE_BACKEND_SERVER_URL
-            }/admin/handleUpload/?topicId=${res.topicId}`,
+            }/admin/handleUpload/?topicId=${res.data.topicId}`,
             multipart: true,
             onUploadProgress: ({ percentage }) => {
               setProgress(percentage || 0);
