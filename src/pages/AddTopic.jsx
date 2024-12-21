@@ -78,30 +78,22 @@ const AddTopic = () => {
       async (res) => {
         setSubmitted(false);
         if (res.status !== 201) return useAlert(res.data.message, "danger");
-
-        alert(res.data.token);
         setStep(2);
         try {
-          let { url } = await upload(file.name, file, {
+          await upload("/videos/video", file, {
             access: "public",
             handleUploadUrl: `${
               import.meta.env.VITE_BACKEND_SERVER_URL
-            }/admin/handleUpload`,
+            }/admin/handleUpload/?topicId=${res.topicId}`,
             multipart: true,
-            onUploadProgress: ({ percentage }) => setProgress(percentage || 0),
-          });
-          console.log(url);
-          useServer(
-            "/admin/courses/topics/:topicId/uploadUrl",
-            "POST",
-            () => {
-              useAlert("Upload complete");
-              nav(-1);
+            onUploadProgress: ({ percentage }) => {
+              setProgress(percentage || 0);
+              if (percentage === 100) {
+                useAlert("Upload completed", "success");
+                nav(-1);
+              }
             },
-            {
-              url,
-            }
-          );
+          });
         } catch (error) {
           console.error("Error during file upload:", error);
           if (error.response) {
@@ -249,7 +241,7 @@ const AddTopic = () => {
                 </div>
               </div>
             </>
-          ) : progress < 100 ? (
+          ) : step === 2 ? (
             <>
               <div className="container-fluid bg-white p-0 rounded-3">
                 <div className="container py-4">
@@ -268,18 +260,13 @@ const AddTopic = () => {
                     </div>
                   </div>
                   <h6 className="text-center">Uploading Video</h6>
+                  <p className="lead fw-bold text-center">
+                    Please don't exit this page until the upload is complete.
+                  </p>
                 </div>
               </div>
             </>
-          ) : (
-            <>
-              <div className="container-fluid bg-white p-0 rounded-3">
-                <div className="container py-4">
-                  <h3 className="text-center">Completing Upload</h3>
-                </div>
-              </div>
-            </>
-          )}
+          ) : null}
         </div>
       </div>
     </>
