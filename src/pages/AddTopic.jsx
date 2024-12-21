@@ -84,7 +84,7 @@ const AddTopic = () => {
             access: "public",
             handleUploadUrl: `${
               import.meta.env.VITE_BACKEND_SERVER_URL
-            }/admin/handleUpload/?topicId=${res.data.topicId}`,
+            }/admin/handleUpload`,
             multipart: true,
             onUploadProgress: ({ percentage }) => {
               setProgress(percentage || 0);
@@ -93,6 +93,9 @@ const AddTopic = () => {
                 nav(-1);
               }
             },
+            clientPayload: JSON.stringify({
+              topicId: res.data.topicId,
+            }),
           });
         } catch (error) {
           console.error("Error during file upload:", error);
