@@ -80,7 +80,7 @@ const AddTopic = () => {
         if (res.status !== 201) return useAlert(res.data.message, "danger");
         setStep(2);
         try {
-          await upload("videos/video", file, {
+          await upload("videos/video" + file.name, file, {
             access: "public",
             handleUploadUrl: `${
               import.meta.env.VITE_BACKEND_SERVER_URL
