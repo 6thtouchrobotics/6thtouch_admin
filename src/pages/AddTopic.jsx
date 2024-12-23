@@ -20,9 +20,9 @@ const AddTopic = () => {
   const [course, setCourse] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   const [topicData, setTopicData] = useState({
-    title: "ihjk",
-    description: "hj",
-    note: "vgjhb",
+    title: "",
+    description: "",
+    note: "",
   });
   const topicFileRef = useRef(null);
   const [step, setStep] = useState(1);

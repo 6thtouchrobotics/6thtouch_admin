@@ -6,8 +6,8 @@ import axios from "axios";
 import useAlert from "../hooks/useAlert";
 const Login = () => {
   const [adminData, setAdminData] = useState({
-    adminEmail: "rootadmin@6thtouch.com",
-    adminPassword: "root",
+    adminEmail: "",
+    adminPassword: "",
   });
   const [submitted, setSubmitted] = useState(false);
   const nav = useNavigate();
