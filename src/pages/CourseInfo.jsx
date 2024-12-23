@@ -85,13 +85,14 @@ const CourseInfo = () => {
             <hr />
             {course.topics.map((topic) => {
               return (
-                <div
+                <Link
                   key={topic.id}
                   className="btn p-0 d-flex align-items-center justify-content-between"
+                  to={`./topics/${topic.id}/edit`}
                 >
                   <h4>{topic.title}</h4>
                   <FontAwesomeIcon icon={faChevronRight} />
-                </div>
+                </Link>
               );
             })}
           </div>

@@ -11,6 +11,7 @@ import {
   faPlus,
   faUserLock,
   faUserPlus,
+  faWarning,
 } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 
@@ -62,66 +63,94 @@ const Nav = () => {
                       </div>
                     </Link>
                   </div>
-                  <div
-                    className={`col-12 mb-3 border-5 border-white ${
-                      pathname.includes("/courses") && "border-start"
-                    }`}
-                    style={{
-                      transition: "border 0.1s ease",
-                    }}
-                  >
-                    <Link
-                      to="/courses"
-                      className="h6 text-decoration-none d-flex align-items-center justify-content-between"
-                    >
-                      <div>
-                        <FontAwesomeIcon
-                          icon={faGraduationCap}
-                          className="me-2"
-                        />
-                        Courses
+
+                  {user?.courseAccess && (
+                    <>
+                      <div
+                        className={`col-12 mb-3 border-5 border-white ${
+                          pathname.includes("/courses") && "border-start"
+                        }`}
+                        style={{
+                          transition: "border 0.1s ease",
+                        }}
+                      >
+                        <Link
+                          to="/courses"
+                          className="h6 text-decoration-none d-flex align-items-center justify-content-between"
+                        >
+                          <div>
+                            <FontAwesomeIcon
+                              icon={faGraduationCap}
+                              className="me-2"
+                            />
+                            Courses
+                          </div>
+                          <FontAwesomeIcon
+                            icon={
+                              pathname.includes("/courses")
+                                ? faAngleUp
+                                : faAngleDown
+                            }
+                            className="me-2"
+                          />
+                        </Link>
                       </div>
-                      <FontAwesomeIcon
-                        icon={
-                          pathname.includes("/courses")
-                            ? faAngleUp
-                            : faAngleDown
-                        }
-                        className="me-2"
-                      />
-                    </Link>
-                  </div>
-                  {pathname.includes("/courses") && (
-                    <div className="col-12 mb-3 ps-4">
+                      {pathname.includes("/courses") && (
+                        <div className="col-12 mb-3 ps-4">
+                          <Link
+                            to="/courses/create"
+                            className="h6 text-decoration-none d-flex align-items-center justify-content-between"
+                          >
+                            <div>
+                              <FontAwesomeIcon icon={faPlus} className="me-2" />
+                              Add Course
+                            </div>
+                          </Link>
+                        </div>
+                      )}
+                    </>
+                  )}
+
+                  {user?.reportAccess && (
+                    <div
+                      className={`col-12 mb-3 border-5 border-white ${
+                        pathname.includes("/reports") && "border-start"
+                      }`}
+                      style={{
+                        transition: "border 0.1s ease",
+                      }}
+                    >
                       <Link
-                        to="/courses/create"
+                        to="/reports"
                         className="h6 text-decoration-none d-flex align-items-center justify-content-between"
                       >
                         <div>
-                          <FontAwesomeIcon icon={faPlus} className="me-2" />
-                          Add Course
+                          <FontAwesomeIcon icon={faWarning} className="me-2" />
+                          Reports
                         </div>
                       </Link>
                     </div>
                   )}
-                  <div
-                    className={`col-12 mb-3 border-5 border-white ${
-                      pathname.includes("/admin") && "border-start"
-                    }`}
-                    style={{
-                      transition: "border 0.1s ease",
-                    }}
-                  >
-                    <Link
-                      to="/admin"
-                      className="h6 text-decoration-none d-flex align-items-center justify-content-between"
+                  {user?.adminAccess && (
+                    <div
+                      className={`col-12 mb-3 border-5 border-white ${
+                        pathname.includes("/admin") && "border-start"
+                      }`}
+                      style={{
+                        transition: "border 0.1s ease",
+                      }}
                     >
-                      <div>
-                        <FontAwesomeIcon icon={faUserLock} className="me-2" />
-                        Admin
-                      </div>
-                    </Link>
-                  </div>
+                      <Link
+                        to="/admin"
+                        className="h6 text-decoration-none d-flex align-items-center justify-content-between"
+                      >
+                        <div>
+                          <FontAwesomeIcon icon={faUserLock} className="me-2" />
+                          Admin
+                        </div>
+                      </Link>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

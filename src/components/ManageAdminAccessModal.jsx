@@ -2,15 +2,15 @@ import React, { useRef, useState } from "react";
 import useServer from "../hooks/useServer";
 import useAlert from "../hooks/useAlert";
 
-
-const EditProfileModal = ({ myProfile, setMyProfile }) => {
+const ManageAdminAccessModal = ({ focusedAdmin: myProfile }) => {
+  if (!myProfile) return;
   const [submitted, setSubmitted] = useState(false);
   const closeBtn = useRef(null);
 
   const [adminData, setAdminData] = useState({
-    adminEmail: myProfile.email,
-    adminFirstName: myProfile.firstName,
-    adminLastName: myProfile.lastName,
+    courseAccess: myProfile.courseAccess,
+    adminAccess: myProfile.adminAccess,
+    reportAccess: myProfile.reportAccess,
   });
 
   const handleSubmit = (e) => {
@@ -18,40 +18,35 @@ const EditProfileModal = ({ myProfile, setMyProfile }) => {
 
     setSubmitted(true);
     useServer(
-      "/admin/me",
+      `/admin/auth/manageAccess/${myProfile.id}`,
       "patch",
       (res) => {
         console.log(res);
         if (closeBtn) closeBtn.current.click();
         setSubmitted(false);
-        useServer(
-          "/admin/me",
-          "get",
-          (res) => res.status === 200 && setMyProfile(res.data)
-        );
       },
       {
-        firstName: adminData.adminFirstName,
-        lastName: adminData.adminLastName,
-        email: adminData.adminEmail,
+        courseAccess: adminData.courseAccess,
+        adminAccess: adminData.adminAccess,
+        reportAccess: adminData.reportAccess,
       }
     );
   };
   return (
     <div
       class="modal fade"
-      id="editProfileModal"
+      id="manageAdminAccessModal"
       data-bs-backdrop="static"
       data-bs-keyboard="false"
       tabindex="-1"
-      aria-labelledby="editProfileModal"
+      aria-labelledby="manageAdminAccessModal"
       aria-hidden="true"
     >
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="editProfileModal">
-              Edit Profile
+            <h5 class="modal-title" id="manageAdminAccessModal">
+              Manage Access
             </h5>
             <button
               type="button"
@@ -63,56 +58,62 @@ const EditProfileModal = ({ myProfile, setMyProfile }) => {
           </div>
           <div class="modal-body">
             <form onSubmit={handleSubmit}>
-              <div className="form-floating mb-3">
+              <h6>Course Privilege</h6>
+              <p>Give admin access to create/edit course and topics</p>
+              <div class="mb-3 form-check">
                 <input
-                  type="text"
-                  className="form-control"
-                  name="adminFirstName"
-                  placeholder="First name"
-                  required
-                  value={adminData.adminFirstName}
-                  onChange={(e) =>
+                  type="checkbox"
+                  class="form-check-input"
+                  id="courseAccess"
+                  checked={adminData.courseAccess}
+                  onClick={(e) => {
                     setAdminData({
                       ...adminData,
-                      adminFirstName: e.target.value,
-                    })
-                  }
+                      courseAccess: !adminData.courseAccess,
+                    });
+                  }}
                 />
-                <label htmlFor="adminFirstName">First name</label>
+                <label class="form-check-label" for="courseAccess">
+                  Allow Course Access
+                </label>
               </div>
-              <div className="form-floating mb-3">
+              <h6>Report Privilege</h6>
+              <p>Give admin access to review reports made by users</p>
+              <div class="mb-3 form-check">
                 <input
-                  type="text"
-                  className="form-control"
-                  name="adminLastName"
-                  placeholder="Last name"
-                  required
-                  value={adminData.adminLastName}
-                  onChange={(e) =>
+                  type="checkbox"
+                  class="form-check-input"
+                  id="reportAccess"
+                  checked={adminData.reportAccess}
+                  onClick={(e) => {
                     setAdminData({
                       ...adminData,
-                      adminLastName: e.target.value,
-                    })
-                  }
+                      reportAccess: !adminData.reportAccess,
+                    });
+                  }}
                 />
-                <label htmlFor="adminLastName">Last name</label>
+                <label class="form-check-label" for="reportAccess">
+                  Allow Report Access
+                </label>
               </div>
-              <div className="form-floating mb-3">
+              <h6>Admin Privilege</h6>
+              <p>Give admin access to add/remove/manage admin</p>
+              <div class="mb-3 form-check">
                 <input
-                  type="email"
-                  className="form-control"
-                  name="adminEmail"
-                  placeholder="Email"
-                  required
-                  value={adminData.adminEmail}
-                  onChange={(e) =>
+                  type="checkbox"
+                  class="form-check-input"
+                  id="adminAccess"
+                  checked={adminData.adminAccess}
+                  onClick={(e) => {
                     setAdminData({
                       ...adminData,
-                      adminEmail: e.target.value,
-                    })
-                  }
+                      adminAccess: !adminData.adminAccess,
+                    });
+                  }}
                 />
-                <label htmlFor="adminEmail">Email</label>
+                <label class="form-check-label" for="adminAccess">
+                  Allow Admin Access
+                </label>
               </div>
 
               <div className="container p-0">
@@ -148,4 +149,4 @@ const EditProfileModal = ({ myProfile, setMyProfile }) => {
   );
 };
 
-export default EditProfileModal;
+export default ManageAdminAccessModal;

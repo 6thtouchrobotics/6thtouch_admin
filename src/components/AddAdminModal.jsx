@@ -11,6 +11,9 @@ const AddAdminModal = ({ setAdmins }) => {
     adminPassword: "",
     adminFirstName: "",
     adminLastName: "",
+    courseAccess: true,
+    adminAccess: false,
+    reportAccess: true,
   });
   // /admin/auth/addAdmin
 
@@ -36,6 +39,9 @@ const AddAdminModal = ({ setAdmins }) => {
         lastName: adminData.adminLastName,
         email: adminData.adminEmail,
         password: adminData.adminPassword,
+        courseAccess: adminData.courseAccess,
+        adminAccess: adminData.adminAccess,
+        reportAccess: adminData.reportAccess,
       }
     );
   };
@@ -132,6 +138,63 @@ const AddAdminModal = ({ setAdmins }) => {
                   }
                 />
                 <label htmlFor="adminPassword">Passkey</label>
+              </div>
+              <h6>Course Privilege</h6>
+              <p>Give admin access to create/edit course and topics</p>
+              <div class="mb-3 form-check">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="courseAccess"
+                  checked={adminData.courseAccess}
+                  onClick={(e) => {
+                    setAdminData({
+                      ...adminData,
+                      courseAccess: !adminData.courseAccess,
+                    });
+                  }}
+                />
+                <label class="form-check-label" for="courseAccess">
+                  Allow Course Access
+                </label>
+              </div>
+              <h6>Report Privilege</h6>
+              <p>Give admin access to review reports made by users</p>
+              <div class="mb-3 form-check">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="reportAccess"
+                  checked={adminData.reportAccess}
+                  onClick={(e) => {
+                    setAdminData({
+                      ...adminData,
+                      reportAccess: !adminData.reportAccess,
+                    });
+                  }}
+                />
+                <label class="form-check-label" for="reportAccess">
+                  Allow Report Access
+                </label>
+              </div>
+              <h6>Admin Privilege</h6>
+              <p>Give admin access to add/remove/manage admin</p>
+              <div class="mb-3 form-check">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="adminAccess"
+                  checked={adminData.adminAccess}
+                  onClick={(e) => {
+                    setAdminData({
+                      ...adminData,
+                      adminAccess: !adminData.adminAccess,
+                    });
+                  }}
+                />
+                <label class="form-check-label" for="adminAccess">
+                  Allow Admin Access
+                </label>
               </div>
               <div className="container p-0">
                 <button

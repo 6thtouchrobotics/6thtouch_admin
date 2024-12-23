@@ -12,11 +12,13 @@ import useAlert from "../hooks/useAlert";
 import { useNavigate } from "react-router-dom";
 import LoadingAnimation from "../components/LoadingAnimation";
 import EditProfileModal from "../components/EditProfileModal";
+import ManageAdminAccessModal from "../components/ManageAdminAccessModal";
 import Skeleton from "react-loading-skeleton";
 
 const Admin = () => {
   const [myProfile, setMyProfile] = useState(null);
   const [admins, setAdmins] = useState(null);
+  const [focusedAdmin, setFocusedAdmin] = useState(null);
   const nav = useNavigate();
 
   useEffect(() => {
@@ -95,53 +97,69 @@ const Admin = () => {
             </button>
           </div>
         </div>
-        <div className="container">
-          <button
-            className="btn project--text--bg--primary"
-            data-bs-toggle="modal"
-            data-bs-target="#addAdminModal"
-          >
-            <FontAwesomeIcon icon={faUserPlus} className="me-2" />
-            Add Admin
-          </button>
-        </div>
-        <div className="container mt-3">
-          <h3>Admin Panel</h3>
-          <hr />
-          {admins
-            .filter((admin) => admin.id !== myProfile.id)
-            .map((admin) => {
-              return (
-                <div
-                  className="row py-3 px-3 align-items-center"
-                  key={admin.id}
-                >
-                  <div className="col-1">
-                    <div className="project--text--primary">
-                      <FontAwesomeIcon icon={faUser} style={{ fontSize: 30 }} />
-                    </div>
-                  </div>
-                  <div className="col-9">
-                    <h4>
-                      {admin.firstName} {admin.lastName}
-                    </h4>
-                  </div>
-                  <div className="col-2">
-                    <button
-                      className="btn project--text--bg--primary"
-                      onClick={() => removeAdmin(admin)}
+        {myProfile.adminAccess && (
+          <>
+            <div className="container">
+              <button
+                className="btn project--text--bg--primary"
+                data-bs-toggle="modal"
+                data-bs-target="#addAdminModal"
+              >
+                <FontAwesomeIcon icon={faUserPlus} className="me-2" />
+                Add Admin
+              </button>
+            </div>
+            <div className="container mt-3">
+              <h3>Admin Panel</h3>
+              <hr />
+              {admins
+                .filter((admin) => admin.id !== myProfile.id)
+                .map((admin) => {
+                  return (
+                    <div
+                      className="row py-3 px-3 align-items-center"
+                      key={admin.id}
                     >
-                      Remove Admin
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-        </div>
+                      <div className="col-1">
+                        <div className="project--text--primary">
+                          <FontAwesomeIcon
+                            icon={faUser}
+                            style={{ fontSize: 30 }}
+                          />
+                        </div>
+                      </div>
+                      <div className="col-7">
+                        <h4>
+                          {admin.firstName} {admin.lastName}
+                        </h4>
+                      </div>
+                      <div className="col-4">
+                        <button
+                          className="btn project--text--bg--primary me-2"
+                          onClick={() => setFocusedAdmin(admin)}
+                          data-bs-toggle="modal"
+                          data-bs-target="#manageAdminAccessModal"
+                        >
+                          Manage Access
+                        </button>
+                        <button
+                          className="btn project--text--bg--primary"
+                          onClick={() => removeAdmin(admin)}
+                        >
+                          Remove Admin
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+            </div>
+          </>
+        )}
       </div>
 
       <AddAdminModal setAdmins={setAdmins} />
       <EditProfileModal myProfile={myProfile} setMyProfile={setMyProfile} />
+      <ManageAdminAccessModal focusedAdmin={focusedAdmin} />
     </>
   ) : (
     <>

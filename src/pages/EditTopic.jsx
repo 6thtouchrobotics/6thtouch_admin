@@ -13,16 +13,17 @@ import {
 } from "@vercel/blob/client";
 import Skeleton from "react-loading-skeleton";
 
-const AddTopic = () => {
+const EditTopic = () => {
   const nav = useNavigate();
 
-  const { courseId } = useParams();
+  const { courseId, topicId } = useParams();
   const [course, setCourse] = useState(null);
+  const [topic, setTopic] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   const [topicData, setTopicData] = useState({
-    title: "ihjk",
-    description: "hj",
-    note: "vgjhb",
+    title: "",
+    description: "",
+    note: "",
   });
   const topicFileRef = useRef(null);
   const [step, setStep] = useState(1);
@@ -31,6 +32,14 @@ const AddTopic = () => {
 
   useEffect(() => {
     useServer(`/courses/${courseId}`, "get", (res) => setCourse(res.data));
+    useServer(`/courses/topics/${topicId}`, "get", (res) => {
+      setTopic(res.data);
+      setTopicData({
+        title: res.data.title,
+        description: res.data.description,
+        note: res.data.note,
+      });
+    });
   }, []);
   const handlePublish = () => {
     setIsChanging(true);
@@ -67,53 +76,55 @@ const AddTopic = () => {
     e.preventDefault();
 
     const file = topicFileRef.current?.files[0];
-    console.log(file);
-    if (!file) {
-      useAlert("Please select a video.");
-      return;
-    }
+
     setSubmitted(true);
     useServer(
-      `/admin/courses/${courseId}/topics/add`,
-      "post",
+      `/admin/courses/topics/${topicId}`,
+      "patch",
       async (res) => {
         setSubmitted(false);
-        if (res.status !== 201) return useAlert(res.data.message, "danger");
-        setStep(2);
-        try {
-          await upload("videos/video" + file.name, file, {
-            access: "public",
-            handleUploadUrl: `${
-              import.meta.env.VITE_BACKEND_SERVER_URL
-            }/admin/handleUpload`,
-            multipart: true,
-            onUploadProgress: ({ percentage }) => {
-              setProgress(percentage || 0);
-              if (percentage === 100) {
-                useAlert("Upload completed", "success");
-                nav(-1);
-              }
-            },
-            clientPayload: JSON.stringify({
-              topicId: res.data.topicId,
-            }),
-          });
-        } catch (error) {
-          console.error("Error during file upload:", error);
-          if (error.response) {
-            console.error("Server Response:", error.response.data);
+        if (res.status !== 200) return useAlert(res.data.message, "danger");
+        if (res.status === 200 && !file) {
+          nav(-1);
+          return useAlert(res.data.message);
+        }
+        if (file) {
+          setStep(2);
+          try {
+            await upload("videos/video" + file.name, file, {
+              access: "public",
+              handleUploadUrl: `${
+                import.meta.env.VITE_BACKEND_SERVER_URL
+              }/admin/handleUpload`,
+              multipart: true,
+              onUploadProgress: ({ percentage }) => {
+                setProgress(percentage || 0);
+                if (percentage === 100) {
+                  useAlert("Upload completed", "success");
+                  nav(-1);
+                }
+              },
+              clientPayload: JSON.stringify({
+                topicId,
+              }),
+            });
+          } catch (error) {
+            console.error("Error during file upload:", error);
+            if (error.response) {
+              console.error("Server Response:", error.response.data);
+            }
           }
         }
       },
       topicData
     );
   };
-  return course ? (
+  return course && topic ? (
     <>
       <div className="container-fluid bg-white rounded-3 mt-3">
         <div className="row py-2 px-3">
           <div className="col-12 ps-4">
-            <h3 className="project--text--primary m-0">Add Topic</h3>
+            <h3 className="project--text--primary m-0">Edit Topic</h3>
           </div>
         </div>
       </div>
@@ -214,7 +225,6 @@ const AddTopic = () => {
                         name="topicVideo"
                         className="form-control"
                         accept="video/*"
-                        required
                         ref={topicFileRef}
                       />
                     </div>
@@ -231,7 +241,7 @@ const AddTopic = () => {
                             <span className="visually-hidden">Loading...</span>
                           </div>
                         )}
-                        {submitted ? "Creating" : "Create"}
+                        {submitted ? "Editing" : "Edit"}
                       </button>
                       <Link
                         to={-1}
@@ -334,4 +344,4 @@ const AddTopic = () => {
   );
 };
 
-export default AddTopic;
+export default EditTopic;

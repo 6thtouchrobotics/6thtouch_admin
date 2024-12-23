@@ -12,7 +12,10 @@ import CoursesInfo from "./pages/CourseInfo";
 import EditCourseInfo from "./pages/EditCourseInfo";
 import AddTopic from "./pages/AddTopic";
 import Admin from "./pages/Admin";
-import AddAdmin from "./pages/AddAdmin";
+import EditTopic from "./pages/EditTopic";
+import TopicInfo from "./pages/TopicInfo";
+import Report from "./pages/Report";
+import ReportInfo from "./pages/ReportInfo";
 
 export default function App() {
   return (
@@ -34,13 +37,20 @@ export default function App() {
                   <Route index element={<CoursesInfo />} />
                   <Route path="topics" element={<Outlet />}>
                     <Route path="add" element={<AddTopic />} />
+                    <Route path=":topicId" element={<Outlet />}>
+                      <Route index element={<TopicInfo />} />
+                      <Route path="edit" element={<EditTopic />} />
+                    </Route>
                   </Route>
                 </Route>
                 <Route path="edit/:courseId" element={<EditCourseInfo />} />
               </Route>
               <Route path="/admin" element={<Outlet />}>
                 <Route index element={<Admin />} />
-                <Route path="add" element={<AddAdmin />} />
+              </Route>
+              <Route path="/reports" element={<Outlet />}>
+                <Route index element={<Report />} />
+                <Route path=":reportId" element={<ReportInfo />} />
               </Route>
             </Route>
             <Route path="/auth" element={<Outlet />}>
