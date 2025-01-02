@@ -225,11 +225,11 @@ const EditTopic = () => {
                         style={{ height: 200 }}
                         value={topicData.note}
                         onChange={
-                          (e) => alert("hi")
-                          // setTopicData({
-                          //   ...topicData,
-                          //   note: e.target.value,
-                          // })
+                          (e) => 
+                          setTopicData({
+                            ...topicData,
+                            note: e.target.value,
+                          })
                         }
                         ref={textareaRef}
                       ></textarea>
