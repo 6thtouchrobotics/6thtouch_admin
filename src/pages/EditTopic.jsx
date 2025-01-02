@@ -52,7 +52,7 @@ const EditTopic = () => {
       element: textareaRef.current,
     });
     setEditor(easymde);
-  }, [textareaRef.current]);
+  }, [textareaRef]);
 
   const handlePublish = () => {
     setIsChanging(true);
@@ -224,8 +224,7 @@ const EditTopic = () => {
                         required
                         style={{ height: 200 }}
                         value={topicData.note}
-                        onChange={
-                          (e) => 
+                        onChange={(e) =>
                           setTopicData({
                             ...topicData,
                             note: e.target.value,

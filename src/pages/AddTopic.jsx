@@ -35,15 +35,16 @@ const AddTopic = () => {
   useEffect(() => {
     useServer(`/courses/${courseId}`, "get", (res) => setCourse(res.data));
   }, []);
+
   useEffect(() => {
-    if (!textareaRef.current) return;
+    if (!textareaRef.current || editor) return;
 
     const easymde = new EasyMDE({
       element: textareaRef.current,
     });
     setEditor(easymde);
-  }, [textareaRef.current]);
-  
+  }, [textareaRef]);
+
   const handlePublish = () => {
     setIsChanging(true);
     useServer(
