@@ -14,16 +14,15 @@ const EditCourseInfo = () => {
   const { courseId } = useParams();
   const [course, setCourse] = useState(null);
   const [submitted, setSubmitted] = useState(false);
-  async function urlToBlob(url) {
-    const response = await fetch(url, { mode: "no-cors" });
-    const blob = await response.blob();
-    return blob;
-  }
 
   const fileInput = useRef();
   useEffect(() => {
     useServer(`/courses/${courseId}`, "get", (res) => setCourse(res.data));
   }, []);
+  useEffect(() => {
+    if (!course) return;
+    if (!course.isPaid) setCourse({ ...course, price: 0 });
+  }, [course?.isPaid]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -149,7 +148,7 @@ const EditCourseInfo = () => {
                   <label htmlFor="courseDuration">Course Duration</label>
                 </div>
               </div>
-              <div className="col-6 mb-3">
+              <div className="col-12 mb-3">
                 <div className="form-floating">
                   <select
                     name="courseCategory"
@@ -167,25 +166,49 @@ const EditCourseInfo = () => {
                   <label htmlFor="courseCategory">Course Duration</label>
                 </div>
               </div>
+
               <div className="col-6 mb-3">
-                <div class="input-group mb-3 h-100">
-                  <span class="input-group-text" id="price">
-                    $
-                  </span>
+                <h6>Payment before access</h6>
+                <div class="form-check">
                   <input
-                    type="number"
-                    className="form-control"
-                    placeholder="Price"
-                    aria-label="Price"
-                    aria-describedby="price"
-                    min={0}
-                    value={course.price}
-                    onChange={(e) =>
-                      setCourse({ ...course, price: e.target.value })
+                    type="checkbox"
+                    class="form-check-input"
+                    id="exampleCheck1"
+                    checked={course.isPaid}
+                    onClick={(e) =>
+                      setCourse({
+                        ...course,
+                        isPaid: !course.isPaid,
+                      })
                     }
                   />
+                  <label class="form-check-label" for="exampleCheck1">
+                    User would have to pay to access this course
+                  </label>
                 </div>
               </div>
+              {course.isPaid && (
+                <div className="col-6 mb-3">
+                  <div class="input-group mb-3 h-100">
+                    <span class="input-group-text" id="price">
+                      $
+                    </span>
+                    <input
+                      type="number"
+                      className="form-control"
+                      placeholder="Price"
+                      aria-label="Price"
+                      aria-describedby="price"
+                      min={1}
+                      value={course.price}
+                      onChange={(e) =>
+                        setCourse({ ...course, price: e.target.value })
+                      }
+                      required
+                    />
+                  </div>
+                </div>
+              )}
 
               <div className="col-12 mb-3 d-flex">
                 <button

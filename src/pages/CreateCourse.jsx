@@ -14,6 +14,7 @@ const CreateCourse = () => {
     price: "",
     category: "",
     duration: "",
+    isPaid: true,
   });
   const fileInput = useRef();
 
@@ -143,7 +144,7 @@ const CreateCourse = () => {
                   <label htmlFor="courseDuration">Course Duration</label>
                 </div>
               </div>
-              <div className="col-6 mb-3">
+              <div className="col-12 mb-3">
                 <div className="form-floating">
                   <select
                     name="courseCategory"
@@ -161,25 +162,49 @@ const CreateCourse = () => {
                   <label htmlFor="courseCategory">Course Duration</label>
                 </div>
               </div>
+
               <div className="col-6 mb-3">
-                <div class="input-group mb-3 h-100">
-                  <span class="input-group-text" id="price">
-                    $
-                  </span>
+                <h6>Payment before access</h6>
+                <div class="form-check">
                   <input
-                    type="number"
-                    className="form-control"
-                    placeholder="Price"
-                    aria-label="Price"
-                    aria-describedby="price"
-                    min={0}
-                    value={courseData.price}
-                    onChange={(e) =>
-                      setCourseData({ ...courseData, price: e.target.value })
+                    type="checkbox"
+                    class="form-check-input"
+                    id="exampleCheck1"
+                    checked={courseData.isPaid}
+                    onClick={(e) =>
+                      setCourseData({
+                        ...courseData,
+                        isPaid: !courseData.isPaid,
+                      })
                     }
                   />
+                  <label class="form-check-label" for="exampleCheck1">
+                    User would have to pay to access this course
+                  </label>
                 </div>
               </div>
+              {courseData.isPaid && (
+                <div className="col-6 mb-3">
+                  <div class="input-group mb-3 h-100">
+                    <span class="input-group-text" id="price">
+                      $
+                    </span>
+                    <input
+                      type="number"
+                      className="form-control"
+                      placeholder="Price"
+                      aria-label="Price"
+                      aria-describedby="price"
+                      min={1}
+                      value={courseData.price}
+                      onChange={(e) =>
+                        setCourseData({ ...courseData, price: e.target.value })
+                      }
+                      required
+                    />
+                  </div>
+                </div>
+              )}
 
               <div className="col-12 mb-3 d-flex">
                 <button
