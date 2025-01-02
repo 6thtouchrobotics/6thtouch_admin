@@ -12,6 +12,7 @@ import {
   upload,
 } from "@vercel/blob/client";
 import Skeleton from "react-loading-skeleton";
+import EasyMDE from "easymde";
 
 const AddTopic = () => {
   const nav = useNavigate();
@@ -25,6 +26,8 @@ const AddTopic = () => {
     note: "",
   });
   const topicFileRef = useRef(null);
+  const textareaRef = useRef(null);
+  const [editor, setEditor] = useState(null);
   const [step, setStep] = useState(1);
   const [progress, setProgress] = useState(0);
   const [isChanging, setIsChanging] = useState(false);
@@ -32,6 +35,14 @@ const AddTopic = () => {
   useEffect(() => {
     useServer(`/courses/${courseId}`, "get", (res) => setCourse(res.data));
   }, []);
+  useEffect(() => {
+    if (!textareaRef.current) return;
+
+    const easymde = new EasyMDE({
+      element: textareaRef.current,
+    });
+    setEditor(easymde);
+  }, [textareaRef.current]);
   const handlePublish = () => {
     setIsChanging(true);
     useServer(
@@ -67,7 +78,11 @@ const AddTopic = () => {
     e.preventDefault();
 
     const file = topicFileRef.current?.files[0];
-    console.log(file);
+    setTopicData({
+      ...topicData,
+      note: editor?.value(),
+    });
+
     if (!file) {
       useAlert("Please select a video.");
       return;
@@ -105,7 +120,7 @@ const AddTopic = () => {
           }
         }
       },
-      topicData
+      { ...topicData, note: editor?.value() }
     );
   };
   return course ? (
@@ -186,24 +201,23 @@ const AddTopic = () => {
                       </div>
                     </div>
                     <div className="col-12 mb-3">
-                      <div className="form-floating">
-                        <textarea
-                          type="text"
-                          placeholder="Course Details"
-                          name="courseDetails"
-                          className="form-control"
-                          required
-                          style={{ height: 200 }}
-                          value={topicData.note}
-                          onChange={(e) =>
-                            setTopicData({
-                              ...topicData,
-                              note: e.target.value,
-                            })
-                          }
-                        ></textarea>
-                        <label htmlFor="courseDetails">Topic Notes</label>
-                      </div>
+                      <textarea
+                        type="text"
+                        placeholder="Topic Note"
+                        name="courseDetails"
+                        className="form-control"
+                        required
+                        style={{ height: 200 }}
+                        value={topicData.note}
+                        onChange={(e) =>
+                          setTopicData({
+                            ...topicData,
+                            note: e.target.value,
+                          })
+                        }
+                        ref={textareaRef}
+                      ></textarea>
+                      <div className="form-floating"></div>
                     </div>
                     <div className="col-12 mb-3">
                       <label htmlFor="courseThumbnail" className="h6">

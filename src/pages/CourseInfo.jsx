@@ -88,7 +88,7 @@ const CourseInfo = () => {
                 <Link
                   key={topic.id}
                   className="btn p-0 d-flex align-items-center justify-content-between"
-                  to={`./topics/${topic.id}/edit`}
+                  to={`./topics/${topic.id}`}
                 >
                   <h4>{topic.title}</h4>
                   <FontAwesomeIcon icon={faChevronRight} />

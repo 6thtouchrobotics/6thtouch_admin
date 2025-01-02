@@ -12,6 +12,7 @@ import {
   upload,
 } from "@vercel/blob/client";
 import Skeleton from "react-loading-skeleton";
+import EasyMDE from "easymde";
 
 const EditTopic = () => {
   const nav = useNavigate();
@@ -26,7 +27,9 @@ const EditTopic = () => {
     note: "",
   });
   const topicFileRef = useRef(null);
+  const textareaRef = useRef(null);
   const [step, setStep] = useState(1);
+  const [editor, setEditor] = useState(null);
   const [progress, setProgress] = useState(0);
   const [isChanging, setIsChanging] = useState(false);
 
@@ -41,6 +44,16 @@ const EditTopic = () => {
       });
     });
   }, []);
+
+  useEffect(() => {
+    if (!textareaRef.current || editor) return;
+
+    const easymde = new EasyMDE({
+      element: textareaRef.current,
+    });
+    setEditor(easymde);
+  }, [textareaRef.current]);
+
   const handlePublish = () => {
     setIsChanging(true);
     useServer(
@@ -76,7 +89,12 @@ const EditTopic = () => {
     e.preventDefault();
 
     const file = topicFileRef.current?.files[0];
+    setTopicData({
+      ...topicData,
+      note: editor?.value(),
+    });
 
+    // return;
     setSubmitted(true);
     useServer(
       `/admin/courses/topics/${topicId}`,
@@ -116,7 +134,7 @@ const EditTopic = () => {
           }
         }
       },
-      topicData
+      { ...topicData, note: editor?.value() }
     );
   };
   return course && topic ? (
@@ -131,7 +149,7 @@ const EditTopic = () => {
       <div className="row p-4">
         <div className="col-4 p-0">
           <div
-            className="p-0 bg-white rounded-3"
+            className="p-0 bg-white rounded-3 position-sticky top-0"
             style={{
               border:
                 "5px solid rgba(var(--bs-secondary-bg-rgb),var(--bs-bg-opacity))!important",
@@ -142,6 +160,7 @@ const EditTopic = () => {
               handlePublish={handlePublish}
               handleUnpublish={handleUnpublish}
               courseView
+              isChanging={isChanging}
             />
           </div>
         </div>
@@ -197,24 +216,23 @@ const EditTopic = () => {
                       </div>
                     </div>
                     <div className="col-12 mb-3">
-                      <div className="form-floating">
-                        <textarea
-                          type="text"
-                          placeholder="Course Details"
-                          name="courseDetails"
-                          className="form-control"
-                          required
-                          style={{ height: 200 }}
-                          value={topicData.note}
-                          onChange={(e) =>
-                            setTopicData({
-                              ...topicData,
-                              note: e.target.value,
-                            })
-                          }
-                        ></textarea>
-                        <label htmlFor="courseDetails">Topic Notes</label>
-                      </div>
+                      <textarea
+                        type="text"
+                        placeholder="Enter the note for this topic"
+                        name="topicNote"
+                        className="form-control"
+                        required
+                        style={{ height: 200 }}
+                        value={topicData.note}
+                        onChange={
+                          (e) => alert("hi")
+                          // setTopicData({
+                          //   ...topicData,
+                          //   note: e.target.value,
+                          // })
+                        }
+                        ref={textareaRef}
+                      ></textarea>
                     </div>
                     <div className="col-12 mb-3">
                       <label htmlFor="courseThumbnail" className="h6">
