@@ -49,7 +49,7 @@ const EditCourseInfo = () => {
 
         if (response.status !== 200)
           return useAlert(response.data.message, "danger");
-        nav("/courses");
+        nav(`/courses/${course.id}`);
       })
       .catch((err) => {
         setSubmitted(false);
