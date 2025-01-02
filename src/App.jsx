@@ -1,6 +1,6 @@
 import "bootstrap/dist/js/bootstrap.bundle";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "easymde/dist/easymde.min.j";
+import "easymde/dist/easymde.min.js";
 import "easymde/dist/easymde.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import "./App.css";
