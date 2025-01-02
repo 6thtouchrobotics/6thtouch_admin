@@ -43,6 +43,7 @@ const AddTopic = () => {
     });
     setEditor(easymde);
   }, [textareaRef.current]);
+  
   const handlePublish = () => {
     setIsChanging(true);
     useServer(

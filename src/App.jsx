@@ -1,7 +1,7 @@
 import "bootstrap/dist/js/bootstrap.bundle";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "easymde/dist/easymde.min.j";
 import "easymde/dist/easymde.min.css";
-import "easymde/dist/easymde.min";
 import "react-loading-skeleton/dist/skeleton.css";
 import "./App.css";
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
