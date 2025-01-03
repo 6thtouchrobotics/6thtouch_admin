@@ -35,7 +35,6 @@ const AddTopic = () => {
   useEffect(() => {
     useServer(`/courses/${courseId}`, "get", (res) => setCourse(res.data));
   }, []);
-
   useEffect(() => {
     if (!textareaRef.current || editor) return;
 
@@ -43,7 +42,7 @@ const AddTopic = () => {
       element: textareaRef.current,
     });
     setEditor(easymde);
-  }, [textareaRef]);
+  }, [textareaRef.current]);
 
   const handlePublish = () => {
     setIsChanging(true);
