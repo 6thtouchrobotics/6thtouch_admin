@@ -36,8 +36,6 @@ const AddTopic = () => {
     useServer(`/courses/${courseId}`, "get", (res) => setCourse(res.data));
   }, []);
   useEffect(() => {
-    if (!textareaRef.current || editor) return;
-
     const easymde = new EasyMDE({
       element: textareaRef.current,
     });

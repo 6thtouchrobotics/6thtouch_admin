@@ -46,8 +46,6 @@ const EditTopic = () => {
   }, []);
 
   useEffect(() => {
-    if (!textareaRef.current || editor) return;
-
     const easymde = new EasyMDE({
       element: textareaRef.current,
     });
@@ -224,8 +222,7 @@ const EditTopic = () => {
                         required
                         style={{ height: 200 }}
                         value={topicData.note}
-                        onChange={
-                          (e) => 
+                        onChange={(e) =>
                           setTopicData({
                             ...topicData,
                             note: e.target.value,
