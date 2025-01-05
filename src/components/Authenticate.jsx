@@ -32,7 +32,7 @@ const Authenticate = ({ children, setUser }) => {
     >
       <div className="text-center">
         <LoadingAnimation addWhiteSpace={false} />
-        <h6>Loading Dashboard, Please Wait...</h6>
+        <h6>Loading Dashboard</h6>
       </div>
     </div>
   );
