@@ -46,6 +46,8 @@ const EditTopic = () => {
   }, []);
 
   useEffect(() => {
+    if (!textareaRef.current || editor) return;
+
     const easymde = new EasyMDE({
       element: textareaRef.current,
     });
