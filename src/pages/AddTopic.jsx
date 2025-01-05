@@ -202,10 +202,14 @@ const AddTopic = () => {
                       </div>
                     </div>
                     <div className="col-12 mb-3">
+                      <label htmlFor="topicNote">
+                        Topic Note (Start typing to show formatter)
+                      </label>
+
                       <textarea
                         type="text"
                         placeholder="Topic Note"
-                        name="courseDetails"
+                        name="topicNote"
                         className="form-control"
                         required
                         style={{ height: 200 }}

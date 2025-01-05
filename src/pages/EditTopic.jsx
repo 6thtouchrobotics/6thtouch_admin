@@ -216,6 +216,9 @@ const EditTopic = () => {
                       </div>
                     </div>
                     <div className="col-12 mb-3">
+                      <label htmlFor="topicNote">
+                        Topic Note (Start typing to show formatter)
+                      </label>
                       <textarea
                         type="text"
                         placeholder="Enter the note for this topic"
