@@ -211,8 +211,11 @@ const EditTopic = () => {
                               description: e.target.value,
                             })
                           }
+                          maxLength={500}
                         ></textarea>
-                        <label htmlFor="courseDetails">Topic Description</label>
+                        <label htmlFor="courseDetails">
+                          Topic Details ({topicData.description.length} / 500)
+                        </label>
                       </div>
                     </div>
                     <div className="col-12 mb-3">
